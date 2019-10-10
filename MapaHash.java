@@ -1,7 +1,7 @@
 public class MapaHash {
     private Registro valores[];
     public MapaHash() {
-        valores = new Registro[100]; 
+        valores = new Registro[100];
     }
     public void put(Registro registro) {
         int posicao = registro.hashCode();
@@ -11,25 +11,25 @@ public class MapaHash {
         } else {
             System.out.println("Colisão detectada");
             Registro reg = valores[posicao];
-                while (reg.getProximo() != null) { // se ele esta no meio da lista
-                    if(reg.getKey() == registro.getKey()) { // o registro que quero inserir  é o mesmo que já existe?
-                        reg.setValue(registro.getValue()); // apenas substitui o valor
-                        System.out.println("Registro existente, atualizando valor do existente");
-                    }
-                    reg = reg.getProximo();
+            while (reg.getProximo() != null) { // se ele esta no meio da lista
+                if(reg.getKey() == registro.getKey()) { // o registro que quero inserir  é o mesmo que já existe?
+                    reg.setValue(registro.getValue()); // apenas substitui o valor
+                    System.out.println("Registro existente, atualizando valor do existente");
                 }
-                if (reg.getProximo() == null) { // se nada foi encontrado, lista no último elemento = null
-                    if(reg.getKey() == registro.getKey()) {
-                        reg.setValue(registro.getValue()); // apenas substitui o valor
-                        System.out.println("Registro existente, atualizando valor no último elemento existente");
-                        return;
-                    }
-                }
-                reg.setProximo(registro); // coloquei o registro na última posicão do indice X do mapa
-                System.out.println("Registro adicionado no final da lista");
-                return;
+                reg = reg.getProximo();
             }
+            if (reg.getProximo() == null) { // se nada foi encontrado, lista no último elemento = null
+                if(reg.getKey() == registro.getKey()) {
+                    reg.setValue(registro.getValue()); // apenas substitui o valor
+                    System.out.println("Registro existente, atualizando valor no último elemento existente");
+                    return;
+                }
+            }
+            reg.setProximo(registro); // coloquei o registro na última posicão do indice X do mapa
+            System.out.println("Registro adicionado no final da lista");
+            return;
         }
+    }
     public Registro get(int key) {
         Registro r = new Registro();
         r.setKey(key);
@@ -42,7 +42,7 @@ public class MapaHash {
                 resultado = resultado.getProximo(); // vou para o proximo
                 if(resultado != null &&  resultado.getKey() == key) { // e o cara?
                     return resultado; // se for, retorno ele
-                } 
+                }
             }
         }
         return null; // registro não encontrado
@@ -56,25 +56,24 @@ public class MapaHash {
             valores[hashCode] = null;
         } else {
             Registro reg = valores[hashCode];
-                while (reg.getProximo() != null) { // se ele esta no meio da lista
-                    if(reg.getKey() == r.getKey()) { // o registro que quero inserir  é o mesmo que já existe?
-                        System.out.println(reg.getValue()+"Foi deletado da lista!");
-                        Registro regAux = reg.getProximo();
-                        reg.setValue(regAux.getValue());
-                        reg.setKey(regAux.getKey());
-                        reg.setProximo(regAux.getProximo()); // apenas substitui o valor
-                        return;
-                    }
-                    if(reg.getKey() == r.getKey() && reg.getProximo() == null) { // o registro que quero inserir  é o mesmo que já existe?
-                        // ?????
-                    }
-                    reg = reg.getProximo();
+            Registro last = null;
+            while (reg.getProximo() != null) { // se ele esta no meio da lista
+                if(reg.getKey() == r.getKey()) { // o registro que quero inserir  é o mesmo que já existe?
+                    System.out.println(reg.getValue()+"Foi deletado da lista!");
+                    Registro regAux = reg.getProximo();
+                    reg.setValue(regAux.getValue());
+                    reg.setKey(regAux.getKey());
+                    reg.setProximo(regAux.getProximo()); // apenas substitui o valor
+                    return;
                 }
-                //reg = reg.getProximo();
-                // if(reg.getKey() == r.getKey() && reg.getProximo() == null){
-                //     System.out.println(reg.getValue()+"Foi deletado da lista!");
-                //     System.out.println("Este e o ultimo elemento da lista btw");
-                // }
+                last = reg;
+                reg = reg.getProximo();
             }
+            if(reg.getKey() == r.getKey() && reg.getProximo() == null && last == null){
+                System.out.println(reg.getValue()+"Foi deletado da lista!");
+                System.out.println("Este e o ultimo elemento da lista btw");
+                last.setProximo(null);
+            }
+        }
     }
 }
