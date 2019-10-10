@@ -56,24 +56,20 @@ public class MapaHash {
             valores[hashCode] = null;
         } else {
             Registro reg = valores[hashCode];
-            Registro last = null;
-            while (reg.getProximo() != null) { // se ele esta no meio da lista
-                if (reg.getKey() == r.getKey()) { // o registro que quero inserir  é o mesmo que já existe?
-                    System.out.println(reg.getValue() + "Foi deletado da lista!");
-                    Registro regAux = reg.getProximo();
-                    reg.setValue(regAux.getValue());
-                    reg.setKey(regAux.getKey());
-                    reg.setProximo(regAux.getProximo()); // apenas substitui o valor
-                    return;
+                while (reg.getProximo() != null) { // se ele esta no meio da lista
+                    if(reg.getKey() == r.getKey()) { // o registro que quero inserir  é o mesmo que já existe?
+                        System.out.println(reg.getValue()+"Foi deletado da lista!");
+                        Registro regAux = reg.getProximo();
+                        reg.setValue(regAux.getValue());
+                        reg.setKey(regAux.getKey());
+                        reg.setProximo(regAux.getProximo()); // apenas substitui o valor
+                        return;
+                    }
+                    if(reg.getKey() == r.getKey() && reg.getProximo() == null) { // o registro que quero inserir  é o mesmo que já existe?
+                        // ?????
+                    }
+                    reg = reg.getProximo();
                 }
-                last = reg;
-                reg = reg.getProximo();
-            }
-            if(reg.getKey() == r.getKey() && reg.getProximo() == null && last != null){
-                System.out.println(reg.getValue()+"Foi deletado da lista!");
-                System.out.println("Este e o ultimo elemento da lista btw");
-                last.setProximo(null);
-            }
                 //reg = reg.getProximo();
                 // if(reg.getKey() == r.getKey() && reg.getProximo() == null){
                 //     System.out.println(reg.getValue()+"Foi deletado da lista!");
